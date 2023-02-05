@@ -7,8 +7,8 @@ import  jwt  from "jsonwebtoken";
 const createUser = async (req, res) => {
     try {
         console.log(req.body)
-        const { completeName, password, state, username, roleId } = req.body;
-        if( completeName == undefined || password == undefined || state == undefined || username == undefined || roleId == undefined) {
+        const { completeName, password, username, roleId } = req.body;
+        if( completeName == undefined || password == undefined || username == undefined ) {
             res.status(400).json(new response ("Bad request. Please fill all fields.", 400, null));
         }
         else {
@@ -17,10 +17,10 @@ const createUser = async (req, res) => {
                 const hashedPassword = await bcrypt.hash(password, 10);
                   await userServices.postAsyncUser(
                     {
-                        roleId,
                         username,
                         password: hashedPassword,
                         completeName,
+                        roleId
                     }
                 ); 
                 res.json(new response("User created", 200, 'record added'));

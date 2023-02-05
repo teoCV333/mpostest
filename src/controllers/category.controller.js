@@ -34,6 +34,25 @@ const getCategory = async (req,res) =>
     }
 }
 
+const getCategoryByName = async (req,res) => 
+{
+    try
+    {
+        const {name} = req.params;
+        var category = await categoryService.getAsyncCategoryByName(name);
+        if(!category)
+        { res.json(new response("Record not found",404,null)); }
+        else
+        {
+            res.json(new response("OK Result",200, category));
+        }
+    }catch(error)
+    {
+        res.status(500);
+        res.json(new response(error.message,500, null));
+    }
+}
+
 const postCategory = async (req,res) => 
 {
     try
@@ -100,6 +119,7 @@ const deleteCategory = async (req,res) =>
     try
     {
         const {id} = req.params;
+        console.log(req.params);
         var category = await categoryService.getAsyncCategory(id)
         if(!category) {
             res.json(new response("ERROR", 404, "Record not found"));
@@ -119,6 +139,7 @@ export const methods =
 {
     getCategories,
     getCategory,
+    getCategoryByName,
     postCategory,
     updateCategory,
     deleteCategory

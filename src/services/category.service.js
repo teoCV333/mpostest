@@ -6,6 +6,7 @@ const getAsyncCategories = async () =>
 {
     return await Category.findAll(
         {
+            where: {state: 0},
             attributes: [
                 "id",
                 "name",
@@ -86,7 +87,7 @@ const deleteAsyncCategory = async(id) => {
             where: {
                 [Op.and]: [
                     {
-                      id: id  
+                        id: id  
                     },
                     {
                         state: 0
